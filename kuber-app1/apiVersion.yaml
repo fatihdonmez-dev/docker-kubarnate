@@ -1,0 +1,34 @@
+# docker build -t registry.dev.rtmnt.net/q2-fatih-donmez .
+# docker push registry.dev.rtmnt.net/q2-fatih-donmez
+# kubectl create secret docker-registry regcred --docker-server=registry.dev.rtmnt.net --docker-username=dock --docker-password=dock
+# kubectl get secret regcred --output=yaml
+# kubectl apply -f apiVersion.yaml
+
+apiVersion: v1
+
+kind: Pod
+
+metadata:
+
+  name: private-reg
+
+spec:
+
+  containers:
+
+  - name: private-reg-container
+
+    image: registry.dev.rtmnt.net/q2-fatih-donmez
+    env:
+    - name: POSTGRES_DB
+      value: "postgres_db"
+    - name: POSTGRES_USER
+      value: "postgres"
+    - name: "POSTGRES_PASS"
+      value: "123456"
+      
+  imagePullSecrets:
+
+  - name: regcred
+
+
